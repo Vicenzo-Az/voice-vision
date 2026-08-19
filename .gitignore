@@ -1,0 +1,38 @@
+# --- Ambiente virtual ---
+.venv/
+venv/
+env/
+
+# --- Python ---
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+
+# --- Build (PyInstaller) ---
+build/
+dist/
+*.spec.bak
+
+# --- Instalador (Inno Setup) ---
+instalador/
+*.exe
+
+# --- Logs e arquivos temporários ---
+*.log
+*.tmp
+
+# --- Saídas geradas pelo próprio app (não fazem parte do código) ---
+transcricao*.txt
+*_transcricao.txt
+
+# --- IDEs / editores ---
+.vscode/
+.idea/
+*.swp
+
+# --- Sistema operacional ---
+Thumbs.db
+desktop.ini
+.DS_Store
