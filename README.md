@@ -9,11 +9,23 @@ nada para a nuvem. Interface em dark mode, feita com PySide6.
 ![Whisper](https://img.shields.io/badge/ASR-faster--whisper-orange)
 ![Platform](https://img.shields.io/badge/platform-Windows-0078D6?logo=windows&logoColor=white)
 ![License](https://img.shields.io/badge/license-MIT-lightgrey)
+[![Latest release](https://img.shields.io/github/v/release/Vicenzo-Az/voice-vision?label=vers%C3%A3o&color=4f8cff)](https://github.com/Vicenzo-Az/voice-vision/releases/latest)
+[![Downloads](https://img.shields.io/github/downloads/Vicenzo-Az/voice-vision/total?label=downloads&color=4f8cff)](https://github.com/Vicenzo-Az/voice-vision/releases/latest)
+
+### [⬇️ Baixar Voice Vision](https://github.com/Vicenzo-Az/voice-vision/releases/latest)
 
 ![Voice Vision screenshot](docs/screenshot.png)
 
+<!--
+  Dica: troque este bloco por um screenshot ou GIF real do app rodando.
+  Ex.: ![Voice Vision screenshot](docs/screenshot.png)
+  Um GIF curto mostrando arrastar um áudio -> transcrever -> copiar
+  costuma ser o que mais chama atenção em um perfil do GitHub.
+-->
+
 ## Sumário
 
+- [Baixar](#️-baixar-voice-vision)
 - [Funcionalidades](#o-que-já-está-pronto)
 - [Como rodar (desenvolvimento)](#como-rodar-desenvolvimento)
 - [Gerando o .exe](#gerando-o-exe)
@@ -185,7 +197,7 @@ que o instalador do Inno Setup empacota.
 ## Gerando o instalador (Inno Setup)
 
 O instalador transforma a pasta `dist\VoiceVision` num único
-`Voice Vision Setup.exe` que instala o app de verdade: atalho no Menu
+`VoiceVision-Setup-1.0.0.exe` que instala o app de verdade: atalho no Menu
 Iniciar, opção de atalho na Área de Trabalho, e entrada em "Aplicativos
 instalados" com desinstalador.
 
@@ -212,7 +224,7 @@ que estiver em `dist\VoiceVision`, então esse passo precisa vir antes.
 O instalador final aparece em:
 
 ```
-instalador\Voice Vision Setup.exe
+instalador\VoiceVision-Setup-1.0.0.exe
 ```
 
 Esse é o arquivo que você distribui — o usuário final só precisa dele.

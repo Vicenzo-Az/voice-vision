@@ -12,7 +12,7 @@
 ; 2. Instale o Inno Setup: https://jrsoftware.org/isinfo.php
 ; 3. Abra este arquivo (VoiceVision.iss) com o Inno Setup Compiler e
 ;    clique em "Compile" (ou rode via linha de comando, veja o README).
-; 4. O instalador final aparece em: instalador\Voice Vision Setup.exe
+; 4. O instalador final aparece em: instalador\VoiceVision-Setup-1.0.0.exe
 
 #define MyAppName "Voice Vision"
 #define MyAppVersion "1.0.0"
@@ -32,7 +32,7 @@ DefaultDirName={autopf}\{#MyAppName}
 DefaultGroupName={#MyAppName}
 UninstallDisplayIcon={app}\{#MyAppExeName}
 OutputDir=instalador
-OutputBaseFilename=Voice Vision Setup
+OutputBaseFilename=VoiceVision-Setup-{#MyAppVersion}
 Compression=lzma2
 SolidCompression=yes
 WizardStyle=modern
