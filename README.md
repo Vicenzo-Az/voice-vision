@@ -1,58 +1,64 @@
 # 🎙️ Voice Vision
 
-App desktop para Windows que transcreve áudio para texto localmente, usando
-[faster-whisper](https://github.com/SYSTRAN/faster-whisper) — sem enviar
-nada para a nuvem. Interface em dark mode, feita com PySide6.
+Aplicação desktop para Windows que realiza transcrição de áudio para texto
+localmente, sem envio de dados para serviços externos. Utiliza
+[faster-whisper](https://github.com/SYSTRAN/faster-whisper) (reimplementação
+otimizada do Whisper via CTranslate2) para inferência em CPU, com interface
+gráfica em PySide6 (Qt) e tema escuro nativo.
 
 ![Python](https://img.shields.io/badge/Python-3.12-blue?logo=python&logoColor=white)
 ![PySide6](https://img.shields.io/badge/UI-PySide6-41cd52?logo=qt&logoColor=white)
 ![Whisper](https://img.shields.io/badge/ASR-faster--whisper-orange)
 ![Platform](https://img.shields.io/badge/platform-Windows-0078D6?logo=windows&logoColor=white)
 ![License](https://img.shields.io/badge/license-MIT-lightgrey)
-[![Latest release](https://img.shields.io/github/v/release/Vicenzo-Az/voice-vision?label=vers%C3%A3o&color=4f8cff)](https://github.com/Vicenzo-Az/voice-vision/releases/latest)
-[![Downloads](https://img.shields.io/github/downloads/Vicenzo-Az/voice-vision/total?label=downloads&color=4f8cff)](https://github.com/Vicenzo-Az/voice-vision/releases/latest)
+[![Latest release](https://img.shields.io/github/v/release/SEU-USUARIO/voice-vision?label=vers%C3%A3o&color=4f8cff)](https://github.com/SEU-USUARIO/voice-vision/releases/latest)
+[![Downloads](https://img.shields.io/github/downloads/SEU-USUARIO/voice-vision/total?label=downloads&color=4f8cff)](https://github.com/SEU-USUARIO/voice-vision/releases/latest)
 
-### [⬇️ Baixar Voice Vision](https://github.com/Vicenzo-Az/voice-vision/releases/latest)
+### [⬇️ Download](https://github.com/SEU-USUARIO/voice-vision/releases/latest)
+
+Instalador Windows (`VoiceVision-Setup-x.x.x.exe`) disponível na seção
+"Assets" da release mais recente. Não requer Python ou dependências
+instaladas — a distribuição é autocontida.
 
 ![Voice Vision screenshot](docs/screenshot.png)
 
-<!--
-  Dica: troque este bloco por um screenshot ou GIF real do app rodando.
-  Ex.: ![Voice Vision screenshot](docs/screenshot.png)
-  Um GIF curto mostrando arrastar um áudio -> transcrever -> copiar
-  costuma ser o que mais chama atenção em um perfil do GitHub.
--->
-
 ## Sumário
 
-- [Baixar](#️-baixar-voice-vision)
-- [Funcionalidades](#o-que-já-está-pronto)
-- [Como rodar (desenvolvimento)](#como-rodar-desenvolvimento)
-- [Gerando o .exe](#gerando-o-exe)
-- [Gerando o instalador](#gerando-o-instalador-inno-setup)
-- [Estrutura do projeto](#estrutura)
+- [Download](#-download)
+- [Funcionalidades](#funcionalidades)
+- [Ambiente de desenvolvimento](#ambiente-de-desenvolvimento)
+- [Build do executável](#build-do-executável)
+- [Geração do instalador](#geração-do-instalador-inno-setup)
+- [Estrutura do projeto](#estrutura-do-projeto)
 - [Licença](#licença)
 
-## Estrutura
+## Estrutura do projeto
 
 ```
 VoiceVision/
-├── main.py                   # ponto de entrada, tema escuro, ícone
-├── paths.py                  # localiza recursos (ícone) em dev e no .exe
-├── requirements.txt
-├── requirements-build.txt    # só o PyInstaller, usado na hora de gerar o .exe
-├── build.bat                 # gera o .exe com um clique (Windows)
+├── main.py                   # entry point: inicialização do Qt, tema, ícone
+├── paths.py                  # resolução de caminhos de recursos (dev/frozen)
+├── requirements.txt          # dependências de runtime
+├── requirements-build.txt    # dependências exclusivas do processo de build
+├── build.bat                 # automação do empacotamento (PyInstaller)
 ├── VoiceVision.spec          # configuração do PyInstaller
-├── VoiceVision.iss           # script do Inno Setup (gera o instalador)
+├── VoiceVision.iss           # script de geração do instalador (Inno Setup)
 ├── assets/
-│   └── icon.ico               # ícone do app
+│   └── icon.ico               # ícone da aplicação
 ├── ui/
-│   └── main_window.py     # interface PySide6
+│   └── main_window.py         # camada de apresentação (PySide6)
 └── services/
-    └── transcriber.py     # lógica do faster-whisper
+    └── transcriber.py         # camada de domínio (faster-whisper)
 ```
 
-## Como rodar (desenvolvimento)
+A separação entre `ui/` e `services/` isola a lógica de transcrição da
+camada de interface — `services/transcriber.py` não possui nenhuma
+dependência de Qt, o que facilita testes unitários e eventual reuso em
+outro front-end (CLI, API, etc.).
+
+## Ambiente de desenvolvimento
+
+Requisitos: Python 3.12+.
 
 ```powershell
 cd VoiceVision
@@ -62,204 +68,198 @@ pip install -r requirements.txt
 python main.py
 ```
 
-## O que já está pronto
+## Funcionalidades
 
-- Selecionar arquivo de áudio (.mp3, .wav, .m4a, .ogg, .flac)
-- **Arrastar e soltar** um arquivo de áudio direto na janela
-- Escolher modelo (tiny/base/small/medium) e idioma, cada um com um botão
-  **"?"** ao lado explicando as opções em detalhe
-- Transcrever em segundo plano (QThread) sem travar a interface
-- **Botão "Parar Transcrição"**, para interromper uma transcrição em andamento
-- **Barra de progresso real** (baseada na duração do áudio já processada)
-- Status textual em tempo real
-- Exibir o texto transcrito na janela
-- Salvar a transcrição como `.txt` onde você quiser
-- **Copiar a transcrição** para a área de transferência com um clique
-- Abrir a pasta do áudio original
-- **Lembra o último modelo, idioma e pasta usados** entre execuções (via `QSettings`)
-- **Dark mode** em todo o app, incluindo diálogos nativos (salvar arquivo, mensagens)
-- **Ícone próprio na barra de tarefas** do Windows, tanto em desenvolvimento
-  quanto no `.exe`
-- Mensagens de erro amigáveis (via QMessageBox)
+- Seleção de arquivo de áudio via diálogo ou drag-and-drop (`.mp3`, `.wav`,
+  `.m4a`, `.ogg`, `.flac`)
+- Seleção de modelo (`tiny`/`base`/`small`/`medium`) e idioma, com ajuda
+  contextual (botão "?") descrevendo o trade-off de cada opção
+- Transcrição executada em thread dedicada (`QThread`), sem bloqueio da UI
+- Cancelamento de transcrição em andamento (parada no limite do segmento
+  atual)
+- Progresso calculado a partir da posição temporal já processada no áudio
+- Persistência de preferências (modelo, idioma, último diretório usado)
+  entre execuções via `QSettings`
+- Exportação da transcrição para `.txt` ou cópia direta para a área de
+  transferência
+- Tema escuro aplicado via `QPalette`, incluindo diálogos nativos do
+  sistema operacional
+- Ícone de aplicação consistente na barra de tarefas, tanto em modo
+  desenvolvimento quanto empacotado
+- Tratamento de exceções com feedback ao usuário via `QMessageBox`, inclusive
+  na inicialização (relevante em builds "windowed", sem console associado)
 
-O modelo do faster-whisper só é carregado na primeira vez que você clica em
-"Transcrever" (evita gastar RAM com o app parado) e fica em cache entre
-transcrições subsequentes, na mesma sessão.
+O carregamento do modelo é postergado até o primeiro clique em
+"Transcrever" (lazy loading), evitando consumo de memória com a aplicação
+ociosa. A instância do modelo é reutilizada entre transcrições subsequentes
+na mesma sessão.
 
-### Sobre a barra de progresso
+### Cálculo de progresso
 
-O faster-whisper processa o áudio em segmentos e informa, para cada um, o
-tempo (`segmento.end`) já processado. A barra usa `segmento.end / duração
-total do áudio` para estimar o percentual — não é uma medição de CPU, é uma
-estimativa baseada em quanto do áudio já foi transcrito.
+O faster-whisper expõe, por segmento processado, o timestamp de término
+(`segment.end`). O percentual exibido é derivado de
+`segment.end / duração_total_do_áudio`— uma estimativa baseada em cobertura
+temporal do áudio, não em uso de CPU ou tempo de execução.
 
-### Sobre o botão "Parar Transcrição"
+### Semântica do cancelamento
 
-A transcrição roda segmento por segmento; ao clicar em "Parar", o app avisa
-a thread de trabalho para interromper assim que o segmento atual terminar
-(não dá para interromper no meio de um segmento, pois o faster-whisper não
-permite isso). Na prática a resposta costuma ser bem rápida. O texto
-transcrito até o momento da parada é descartado — se quiser aproveitar um
-resultado parcial, é melhor deixar terminar.
+A transcrição é interrompida entre segmentos, não durante o processamento
+de um segmento individual — limitação da API do faster-whisper, que não
+expõe pontos de interrupção mais granulares. O texto parcial gerado até o
+cancelamento é descartado; não há suporte a resultados parciais.
 
-### Sobre o dark mode
+### Theming
 
-O tema escuro é aplicado via `QPalette` (em `main.py`, função
-`_aplicar_tema_escuro`), não só um stylesheet — por isso ele também escurece
-diálogos nativos do Windows abertos pelo Qt, como o de "Salvar arquivo" e as
-caixas de mensagem, além dos widgets da própria janela.
+O tema escuro é implementado via `QPalette` (função `_aplicar_tema_escuro`
+em `main.py`), não via stylesheet isolado. Essa abordagem propaga o tema
+para diálogos nativos renderizados pelo Qt (seleção de arquivo, caixas de
+mensagem), garantindo consistência visual em toda a superfície da aplicação.
 
-### Onde as preferências ficam salvas
+### Persistência de configurações
 
-O `QSettings` grava no local padrão do sistema operacional (no Windows, no
-Registro, em `HKEY_CURRENT_USER\Software\VoiceVision\VoiceVision`). Não
-precisa criar nenhum arquivo manualmente.
+`QSettings` grava no repositório de configurações padrão do sistema
+operacional — no Windows, no registro, em
+`HKEY_CURRENT_USER\Software\VoiceVision\VoiceVision`.
 
-### Onde o modelo do Whisper fica salvo
+### Armazenamento de modelos
 
-Em vez do cache padrão do `huggingface_hub` (que pode variar), o app salva
-os modelos baixados em um local fixo e previsível:
+Os modelos do Whisper são armazenados em um diretório fixo,
+independente do cache padrão do `huggingface_hub`:
 
 ```
 %LOCALAPPDATA%\VoiceVision\modelos
 ```
 
-Isso vale tanto rodando com `python main.py` quanto no `.exe` — assim o
-modelo baixado numa execução continua disponível na próxima, mesmo depois
-de reinstalar o app. Esse caminho aparece como dica (tooltip) se você passar
-o mouse sobre a linha de status no app.
+Essa escolha garante um local previsível tanto em execução via
+`python main.py` quanto no binário empacotado, e preserva os modelos
+baixados entre reinstalações do aplicativo (ver ressalva na seção de
+instalador). O caminho é exposto como tooltip na barra de status da UI.
 
-A estratégia escolhida é **baixar o modelo na primeira execução** (precisa
-de internet uma vez; `.exe`/instalador inicial menor). Se no futuro você
-quiser a estratégia de embutir o modelo (100% offline), me avise — dá para
-adicionar os arquivos do modelo em `datas` no `.spec` e apontar o
-`download_root` para essa pasta embutida.
+A estratégia adotada é download sob demanda (na primeira execução com um
+modelo ainda não baixado), o que mantém o instalador inicial compacto ao
+custo de exigir conectividade na primeira transcrição de cada modelo.
+Empacotamento offline (modelo embutido no instalador) é possível adicionando
+os arquivos do modelo em `datas` no `.spec` e ajustando `download_root`.
 
 ---
 
-## Gerando o .exe
+## Build do executável
 
-### O jeito fácil: `build.bat`
+### Via `build.bat`
 
-Na pasta do projeto, dê duplo clique em `build.bat` (ou rode pelo
-PowerShell/CMD). Ele cria o ambiente virtual se precisar, instala tudo,
-limpa builds antigos e roda o PyInstaller com a configuração já pronta em
-`VoiceVision.spec`.
+Automatiza o processo completo: criação de ambiente virtual (se ausente),
+instalação de dependências, limpeza de builds anteriores e execução do
+PyInstaller com a configuração de `VoiceVision.spec`.
 
-Ao final, o app fica em:
+```powershell
+build.bat
+```
+
+Saída:
 
 ```
 dist\VoiceVision\VoiceVision.exe
 ```
 
-**Importante:** para distribuir sem instalador, copie a pasta
-`dist\VoiceVision` inteira, não só o `.exe` — ele depende dos arquivos ao
-lado (DLLs do ctranslate2, etc.). Pode compactar essa pasta em um `.zip`.
-Se você vai gerar o instalador (próxima seção), não precisa fazer isso
-manualmente.
+Para distribuição sem instalador, a pasta `dist\VoiceVision` deve ser
+copiada integralmente — o executável depende dos artefatos adjacentes
+(bibliotecas nativas do CTranslate2, entre outros).
 
-### Por que um `.spec` em vez de só `pyinstaller main.py`?
+### Rationale do `.spec`
 
-O `faster-whisper` depende do `ctranslate2`, que traz bibliotecas nativas
-(`.dll`) e arquivos de dados que o PyInstaller **não** detecta sozinho por
-padrão. O `VoiceVision.spec` já resolve isso usando `collect_all()` para:
+`faster-whisper` depende de `ctranslate2`, que inclui bibliotecas nativas
+(`.dll`) e arquivos de dados não detectados automaticamente pela análise
+estática do PyInstaller. `VoiceVision.spec` resolve isso via `collect_all()`
+para os seguintes pacotes:
 
 - `faster_whisper`
 - `ctranslate2`
-- `av` (decodificação de áudio)
+- `av` — decodificação de áudio
 - `tokenizers`
 - `huggingface_hub`
 
-Também escolhemos o modo **onedir** (uma pasta com o `.exe` + dependências)
-em vez de **onefile** (um único `.exe`). Onefile parece mais "limpo", mas
-empacotar bibliotecas nativas pesadas como as do `ctranslate2` num único
-arquivo costuma causar erros de DLL ou inicialização bem mais lenta. Onedir
-é mais robusto para esse caso — e é justamente essa pasta (`dist\VoiceVision`)
-que o instalador do Inno Setup empacota.
+O modo de empacotamento escolhido é **onedir** (diretório com o executável
+e suas dependências) em vez de **onefile**. Onefile exige descompactação em
+diretório temporário a cada inicialização, o que aumenta o tempo de startup
+e é uma fonte comum de falhas de carregamento de DLL em dependências nativas
+volumosas como as do CTranslate2. Onedir é a configuração recomendada para
+esse perfil de dependências, e é o artefato consumido diretamente pelo
+Inno Setup na etapa seguinte.
 
-### Se algo der errado no build
+### Diagnóstico de problemas de build
 
-- **`ModuleNotFoundError` ao abrir o `.exe`**: normalmente falta algum
-  pacote no `collect_all`. Rode o app pelo terminal
-  (`dist\VoiceVision\VoiceVision.exe`, direto no CMD, não por duplo clique)
-  para ver o traceback completo e me avise qual módulo faltou.
-- **Antivírus/SmartScreen bloqueando o `.exe`**: comum em executáveis
-  gerados com PyInstaller sem certificado de assinatura. Não indica
-  problema no código.
-- **Build muito lento ou `.exe` gigante**: normal — `ctranslate2` e as
-  dependências de ML são pesadas (algumas centenas de MB na pasta final).
-- **Erro ao iniciar sem mensagem nenhuma**: o `main.py` já captura exceções
-  na inicialização e mostra numa caixa de diálogo. Se mesmo assim não
-  aparecer nada, rode pelo CMD.
+| Sintoma | Causa provável / ação |
+|---|---|
+| `ModuleNotFoundError` ao executar o `.exe` | Dependência ausente em `collect_all`. Execute `dist\VoiceVision\VoiceVision.exe` via terminal (não por duplo clique) para capturar o traceback completo. |
+| SmartScreen/antivírus sinalizando o executável | Comportamento esperado para binários PyInstaller sem assinatura de código; não indica comprometimento. |
+| Build lento ou artefato volumoso | Esperado — CTranslate2 e dependências de ML somam algumas centenas de MB no diretório final. |
+| Falha silenciosa na inicialização | `main.py` captura exceções de inicialização e as exibe via `QMessageBox` (necessário em build "windowed", sem console). Caso persista sem feedback, execute via terminal. |
 
 ---
 
-## Gerando o instalador (Inno Setup)
+## Geração do instalador (Inno Setup)
 
-O instalador transforma a pasta `dist\VoiceVision` num único
-`VoiceVision-Setup-1.0.0.exe` que instala o app de verdade: atalho no Menu
-Iniciar, opção de atalho na Área de Trabalho, e entrada em "Aplicativos
-instalados" com desinstalador.
+`VoiceVision.iss` empacota `dist\VoiceVision` em um instalador único
+(`VoiceVision-Setup-x.x.x.exe`) com atalhos de menu, registro em
+"Aplicativos instalados" e desinstalador.
 
-### 1. Instalar o Inno Setup
+### 1. Instalação do Inno Setup
 
-Baixe e instale (gratuito): https://jrsoftware.org/isdl.php
+Compilador gratuito: https://jrsoftware.org/isdl.php
 
-### 2. Gerar a pasta `dist\VoiceVision`
+### 2. Pré-requisito: build gerado
 
-Rode `build.bat` normalmente (ver seção acima) — o instalador empacota o
-que estiver em `dist\VoiceVision`, então esse passo precisa vir antes.
+`VoiceVision.iss` referencia `dist\VoiceVision` — execute `build.bat`
+previamente.
 
-### 3. Compilar o instalador
+### 3. Compilação
 
-**Pela interface:** abra `VoiceVision.iss` com o "Inno Setup Compiler"
-(instalado no passo 1) e clique em **Build > Compile** (ou aperte `Ctrl+F9`).
+Via interface (Inno Setup Compiler): abrir `VoiceVision.iss` e executar
+**Build > Compile** (`Ctrl+F9`).
 
-**Pela linha de comando** (útil para automatizar):
+Via linha de comando:
 
 ```powershell
 "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" VoiceVision.iss
 ```
 
-O instalador final aparece em:
+Saída:
 
 ```
 instalador\VoiceVision-Setup-1.0.0.exe
 ```
 
-Esse é o arquivo que você distribui — o usuário final só precisa dele.
+Artefato final para distribuição.
 
-### O que o `VoiceVision.iss` já configura
+### Configuração do instalador
 
-- Nome, versão e ícone do app (usa o mesmo `assets\icon.ico`)
-- Instalação padrão em `Arquivos de Programas\Voice Vision`, sem exigir
-  privilégio de administrador (`PrivilegesRequired=lowest`)
-- Atalho no Menu Iniciar sempre; atalho na Área de Trabalho como opção
-  (checkbox desmarcado por padrão) durante a instalação
-- Desinstalador automático, incluindo remover a pasta de instalação **e**
-  os modelos do Whisper baixados (`%LOCALAPPDATA%\VoiceVision`) — a
-  desinstalação não deixa nada para trás
-- Assistente em português (usa o pacote de idioma `BrazilianPortuguese`
-  do próprio Inno Setup)
-- Opção de abrir o app automaticamente ao final da instalação
+- Metadados (nome, versão, ícone) consistentes com o restante do projeto
+  (`assets\icon.ico`)
+- Instalação em `Arquivos de Programas\Voice Vision`, sem exigência de
+  privilégio administrativo (`PrivilegesRequired=lowest`)
+- Atalho de Menu Iniciar por padrão; atalho de Área de Trabalho como tarefa
+  opcional (desmarcada por padrão)
+- Desinstalação completa, incluindo o diretório de instalação **e** o
+  diretório de modelos (`%LOCALAPPDATA%\VoiceVision`) — nenhum artefato
+  remanescente após desinstalar
+- Assistente localizado em português (pacote `BrazilianPortuguese` do
+  Inno Setup)
+- Execução opcional da aplicação ao término da instalação
 
-**Um detalhe importante:** como a desinstalação apaga os modelos baixados,
-uma reinstalação vai precisar baixá-los de novo (internet necessária na
-primeira transcrição pós-reinstalação). Se no futuro preferir preservar os
-modelos entre desinstalações — por exemplo, para o caso de reinstalar uma
-versão nova sem perder o que já foi baixado — é só remover a segunda linha
-do bloco `[UninstallDelete]` no `.iss`.
+**Implicação da limpeza completa:** como os modelos baixados são removidos
+na desinstalação, uma reinstalação subsequente exige novo download. Para
+preservar modelos entre desinstalações, remover a segunda entrada do bloco
+`[UninstallDelete]` em `VoiceVision.iss`.
 
-### Atualizando a versão
+### Versionamento
 
-Ao lançar uma nova versão do app, edite a linha `#define MyAppVersion` no
-topo do `VoiceVision.iss` antes de recompilar — isso aparece em
-"Aplicativos instalados" do Windows e ajuda o Inno Setup a lidar
-corretamente com atualizações (o `AppId` já fixo garante que ele reconheça
-como o mesmo programa).
+Ao publicar uma nova versão, atualizar `#define MyAppVersion` no início de
+`VoiceVision.iss` antes de recompilar. O `AppId` é fixo e não deve ser
+alterado — é ele que permite ao Windows tratar instalações subsequentes
+como atualização do mesmo aplicativo, em vez de uma instalação paralela.
 
 ---
 
 ## Licença
 
-Distribuído sob a licença MIT — veja [LICENSE](LICENSE) para o texto completo.
+Distribuído sob licença MIT — ver [LICENSE](LICENSE).
