@@ -11,10 +11,10 @@ gráfica em PySide6 (Qt) e tema escuro nativo.
 ![Whisper](https://img.shields.io/badge/ASR-faster--whisper-orange)
 ![Platform](https://img.shields.io/badge/platform-Windows-0078D6?logo=windows&logoColor=white)
 ![License](https://img.shields.io/badge/license-MIT-lightgrey)
-[![Latest release](https://img.shields.io/github/v/release/SEU-USUARIO/voice-vision?label=vers%C3%A3o&color=4f8cff)](https://github.com/SEU-USUARIO/voice-vision/releases/latest)
-[![Downloads](https://img.shields.io/github/downloads/SEU-USUARIO/voice-vision/total?label=downloads&color=4f8cff)](https://github.com/SEU-USUARIO/voice-vision/releases/latest)
+[![Latest release](https://img.shields.io/github/v/release/Vicenzo-Az/voice-vision?label=vers%C3%A3o&color=4f8cff)](https://github.com/Vicenzo-Az/voice-vision/releases/latest)
+[![Downloads](https://img.shields.io/github/downloads/Vicenzo-Az/voice-vision/total?label=downloads&color=4f8cff)](https://github.com/Vicenzo-Az/voice-vision/releases/latest)
 
-### [⬇️ Download](https://github.com/SEU-USUARIO/voice-vision/releases/latest)
+### [⬇️ Download](https://github.com/Vicenzo-Az/voice-vision/releases/latest)
 
 Instalador Windows (`VoiceVision-Setup-x.x.x.exe`) disponível na seção
 "Assets" da release mais recente. Não requer Python ou dependências
